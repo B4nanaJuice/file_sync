@@ -85,7 +85,7 @@ systèmes de fichiers présents sur la même machine.
 
 Ce projet doit être effectué exclusivement en binôme.
 
-Un premier rapport de quelques pages doit être envoyé avant le lundi 04 décembre 2022 (???) à l’adresse florent.retraint@utt.fr. Ce
+Un premier rapport de quelques pages doit être envoyé avant le lundi 04 décembre 2022 (???) à l’adresse []. Ce
 premier rapport doit décrire l’architecture du programme et les choix particuliers envisagés.
 Un rapport final de quelques pages doit être rendu avant la fin de la semaine précédant les finaux. Une présentation et un test
 du Shell seront effectués pendant 15 à 20 minutes quelques jours avant l’examen final de l’UE. Bon courage ! ! !
