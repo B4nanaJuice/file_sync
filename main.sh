@@ -2,3 +2,4 @@
 
 AGE=$1;
 echo "Hey ! tu as $AGE ans";
+echo t;
