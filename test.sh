@@ -19,15 +19,16 @@ while getopts ":ir:o:c:" option; do
         fi
 
         mode="refresh"
-        f_dir=$2
-        s_dir=$3
-        echo "First dir: $f_dir"
-        echo "Second dir: $s_dir"
+        directories=$OPTARG # Directories in double quotes and will be splited later
         ;;
 
         o) # Set the origin of the copy
-        echo "Test of the origin"
         origin=$OPTARG
+
+        if [ ! -d $origin ]; then 
+            echo "Error: $origin is not a directory"
+            exit
+        fi
         ;;
 
         c) # Set where the copied files will be put
@@ -35,8 +36,13 @@ while getopts ":ir:o:c:" option; do
             echo "Error: You can use this option only when creating the synchronisation"
             exit
         fi
+
         copy_output=$OPTARG
-        echo coucou toi
+
+        if [ ! -d $copy_output ]; then
+            echo "Error: $copy_output is not a directory"
+            exit
+        fi
         ;;
 
         \?) # Invalid option
@@ -45,9 +51,54 @@ while getopts ":ir:o:c:" option; do
     esac
 done
 
-
 if [ "$mode" = "init" ]; then
-    ls $copy_output
+    # Do all the things when it's on init
+    if [ "$origin" = "" ]; then
+        echo "Error: Must provide an origin directory"
+        exit
+    fi
+
+    if [ "$copy_output" = "" ]; then
+        echo "Error: Must provide a destination directory"
+        exit
+    fi
+
+
 elif [ "$mode" = "refresh" ]; then
-    ls $origin
+    # Do all the things for the refresh
+    set $directories
+
+    if [ $# -ne 2 ]; then
+        echo "Error: Must provide 2 folders"
+        exit
+    fi
+
+    if [ ! -d $1]; then
+        echo "Error: $1 is not a directory"
+        exit
+    fi
+
+    if [ ! -d $2 ]; then
+        echo "Error: $2 is not a directory"
+        exit
+    fi
+
+    # Check for the folder that is different
+    # Set it as the origin folder
+    
+
+
+    # Copy the content of the origin folder to the other folder
+    # Pour la copie du directory
+    # Mise en place d'un dossier temporaire pour la copie (à voir si on peut pas copier directement en changeant le nom)
+    # mkdir .temp
+    # cp -rp $origin ./.temp -> r = recursive, p = keep the permissions
+    # rm -r $copy_output
+    # mv ./.temp/$origin ./$copy_output
+    # rm -r ./.temp
+
+    
+
+    # Refresh the content of the .synchro file
+
 fi
