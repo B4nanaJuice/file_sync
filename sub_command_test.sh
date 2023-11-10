@@ -1,29 +1,22 @@
 #! /bin/bash
 
-sub_command=$1
+function main(){
+    if [ $# -eq 0 ]; then
+        echo t
+        exit
+    fi
 
-case $sub_command in
-    init | initialize)
-        echo "Init"
-    ;;
+    case $1 in
+        init | push | save | load) # Test if it's one of the commands
+            source "commands/$1.sh" # Import the content of the file depending on the given sub command
+            $1 "${@:2}"            # Call the function linked to the sub command with arguments
+        ;;
 
-    pull | get)
-        echo "Pull"
-    ;;
+        *)
+            echo "Error: Invalid subcommand (expected init, push, save or load but got $1)"
+            exit
+        ;;
+    esac
+}
 
-    save)
-        echo "Save"
-        echo -n "enter subcommand:"
-        read t
-
-        echo "you entered $t"
-    ;;
-
-    load)
-        echo "Load"
-    ;;
-
-    *)
-    echo "Error: Invalid subcommand"
-    exit;;
-esac
+main "$@";

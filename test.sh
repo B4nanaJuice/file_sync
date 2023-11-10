@@ -73,7 +73,7 @@ elif [ "$mode" = "refresh" ]; then
         exit
     fi
 
-    if [ ! -d $1]; then
+    if [ ! -d $1 ]; then
         echo "Error: $1 is not a directory"
         exit
     fi
