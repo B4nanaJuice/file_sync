@@ -1,0 +1,1 @@
+SYNCHRO_FILE=.synchro
