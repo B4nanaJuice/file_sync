@@ -1,5 +1,11 @@
 #! /bin/bash
 
+SYNCHRO_FILE=.synchro
+
+function copy(){
+    echo $@
+}
+
 function main(){
     if [ $# -eq 0 ]; then
         echo t

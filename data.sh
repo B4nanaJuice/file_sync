@@ -1,1 +1,0 @@
-SYNCHRO_FILE=.synchro

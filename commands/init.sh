@@ -1,7 +1,5 @@
-source data.sh
-
 function init(){
-    if [ $# -eq 0 ]; then
+    if [ $# -eq 0 ] || [ $1 = "help" ]; then
         push_help;
     fi
 
@@ -57,14 +55,9 @@ function init(){
         touch .synchro
     fi
 
-    echo "dossier 1 ici" > $SYNCHRO_FILE
-    echo "dossier 2" >> $SYNCHRO_FILE
-    echo "la date" >> $SYNCHRO_FILE
+    echo "$__origin $__copy $(date | sed 's/ /-/g')" > $SYNCHRO_FILE
 
-    cat $SYNCHRO_FILE
-
-    # echo $__origin
-    # echo $__copy
+    copy A B
 
     exit 0;
 }
