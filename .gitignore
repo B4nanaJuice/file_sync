@@ -1,4 +1,6 @@
-.synchro
+./.synchro
 
-A/
-B/
+./A/
+./A/*
+./B/
+./B/*
