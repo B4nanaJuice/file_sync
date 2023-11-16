@@ -71,6 +71,7 @@ function push(){
             exit 1;
         fi
 
+        # Test if the argument is one of the two directories
         # If origin == temp a -> dest = temp b and reverse
 
     fi
