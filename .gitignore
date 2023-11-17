@@ -1,9 +1,10 @@
-./.synchro
+.synchro
 
-./A/
-./A/*
-./B/
-./B/*
+A/
+A/*
 
-./.backup/
-./.backup/*
+B/
+B/*
+
+.backup/
+.backup/*
