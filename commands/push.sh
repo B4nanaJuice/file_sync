@@ -1,7 +1,14 @@
 function push(){
 
-    if [ $1 = "help" ]; then
-        push_help;
+    if [ $# -ne 0 ]; then 
+        if [ $1 = "help" ]; then
+            push_help;
+        fi
+    fi
+
+    if [ ! -f $SYNCHRO_FILE ]; then 
+        echo "Error: synchro file can't be found. Please initialize your directories before pushing."
+        exit 1;
     fi
 
     local error_message='';
@@ -12,12 +19,12 @@ function push(){
         error_message="Error: a value is needed for '$1'"
         case $1 in
             -f | --force-origin )
-                __origin==${2:?$error_message}
+                __origin=${2:?$error_message}
                 shift 2;
             ;;
 
             *)
-                echo ""
+                echo "Error: Unknown option $1"
                 exit 1;
             ;;
         esac
@@ -33,7 +40,6 @@ function push(){
     local __temp_a=$(awk '{print $1}' $SYNCHRO_FILE);
     local __temp_b=$(awk '{print $2}' $SYNCHRO_FILE);
     local __reference_date="";
-    local __origin="";
 
     # If the origin dir has not been specified
     if [ -z $__origin ]; then 
@@ -42,11 +48,12 @@ function push(){
 
         # Test which one has recent modifications
         # If the first dir has recent modifications
-        if [ $(date -r $__temp_a) > $__reference_date ]; then 
+        if [[ "$(date -r $__temp_a)" > "$__reference_date" ]]; then 
 
             # If the second dir has also recent modifications -> conflict
-            if [ $(date -r $__temp_b) > $__reference_date ]; then 
+            if [[ "$(date -r $__temp_b)" > "$__reference_date" ]]; then 
                 echo "Error: there is a conflict"
+                conflict $__temp_a $__temp_b
                 exit 0;
             else
                 __origin=$__temp_a;
@@ -54,7 +61,7 @@ function push(){
             fi
 
         # If there is the second dir with recent modifications
-        elif [ $(date -r $__temp_b) > $__reference_date ]; then 
+        elif [[ "$(date -r $__temp_b)" > "$__reference_date" ]]; then 
 
             __origin=$__temp_b;
             __destination=$__temp_a;
@@ -72,11 +79,21 @@ function push(){
         fi
 
         # Test if the argument is one of the two directories
-        # If origin == temp a -> dest = temp b and reverse
+
+        if [ $(echo $__origin | sed 's/^\.\///; s/\/$//') = $__temp_a ]; then
+            __destination=$__temp_b
+        elif [ $(echo $__origin | sed 's/^\.\///; s/\/$//') = $__temp_b ]; then
+            __destination=$__temp_a
+        else
+            echo "Error: $__origin is not in the synchro configuration"
+            exit 1;
+        fi
 
     fi
 
     copy $__origin $__destination
+
+    echo "$__origin $__destination $(date | sed 's/ /-/g')" > $SYNCHRO_FILE
 
     exit 0;
     
