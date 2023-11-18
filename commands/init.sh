@@ -1,5 +1,6 @@
 function init(){
 
+    # Test if the user provides no argument or if they ask for the help
     if [ $# -eq 0 ] || [ $1 = "help" ]; then
         init_help;
     fi
@@ -69,6 +70,18 @@ function init(){
 }
 
 function init_help(){
-    echo "this is the help"
+    
+    echo
+    echo " init -o [directory] -d [directory]"
+    echo 
+    echo " Initialize the link between two directories and make a first synchronization by copying the content"
+    echo " of the origin directory into the destination directory. If two files in the origin directory and the"
+    echo " destination directory have the same name, the one in the origin will overwrite the other one."
+    echo
+    echo " available options :"
+    echo " -o | --origin                 set the origin directory fo the first synchronization"
+    echo " -d | --destination            set the destination directory for the first synchronization"
+    echo
+
     exit 0;
 }

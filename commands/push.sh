@@ -1,11 +1,11 @@
 function push(){
 
-    if [ $# -ne 0 ]; then 
-        if [ $1 = "help" ]; then
-            push_help;
-        fi
+    # Test if the user asks for the help
+    if [ $# -ne 0 ] && [ $1 = "help" ]; then
+        push_help;
     fi
 
+    # Test if the synchro file is created, if not, ask the user to init the two directories
     if [ ! -f $SYNCHRO_FILE ]; then 
         echo "Error: synchro file can't be found. Please initialize your directories before pushing."
         exit 1;
@@ -100,6 +100,19 @@ function push(){
 }
 
 function push_help(){
-    echo help-
+    
+    echo
+    echo " push [-f [directory]]"
+    echo 
+    echo " Synchronize the content of two directories registered into a synchronization file. The copy will be"
+    echo " made only if one of the two directories has recent modifications. If both of the two directories have"
+    echo " recent modifications, there is a conflict and for each different file, the user will have to choose the"
+    echo " file they want to keep."
+    echo
+    echo " available options :"
+    echo " -f | --force-origin           force the sync by copying the content of the origin directory into the"
+    echo "    |                          other one without knowing the existence of conflict"
+    echo
+
     exit 0;
 }
