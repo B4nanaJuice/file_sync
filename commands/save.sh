@@ -85,6 +85,19 @@ function save(){
 }
 
 function save_help(){
-    echo "Help of the save"
+    
+    echo
+    echo " save -o [directory] [-v [version]]"
+    echo 
+    echo " Create a backup of a chosen directory. The directory have to be already initialized (present into the"
+    echo " synchronisation file) or the save won't be made. The version is optional. If the user doesn't specify"
+    echo " it, the version will be like the most recent one but the last digit will be incremented (for example:"
+    echo " if the most recent backup is 1.3.2, the new version will be 1.3.3)."
+    echo
+    echo " available options :"
+    echo " -o | --origin                 select the directory the user want to make a backup of"
+    echo " -v | --version                set the version of the backup"
+    echo
+
     exit 0;
 }

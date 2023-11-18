@@ -103,6 +103,19 @@ function load(){
 }
 
 function load_help(){
-    echo "Help of the load"
+    
+    echo
+    echo " load -v [version] -d [destination]"
+    echo 
+    echo " Load a backup with a specified version. The destination directory have to be already initialized"
+    echo " (present into the synchronisation file) or the load won't be made. If recent modifications are made"
+    echo " into the destincation directory, the programm will ask the user if they want to overwrite the directory"
+    echo " anyway."
+    echo
+    echo " available options :"
+    echo " -v | --version                select the version of the backup the user wants to load"
+    echo " -d | --destination            set the destination directory of the loaded backup"
+    echo
+
     exit 0;
 }
