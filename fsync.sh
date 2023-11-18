@@ -4,9 +4,8 @@ source utils/data.sh
 source utils/functions.sh
 
 function main(){
-    if [ $# -eq 0 ]; then
-        echo t
-        exit
+    if [ $# -eq 0 ] || [ $1 = "help" ]; then
+        main_help;
     fi
 
     case $1 in
@@ -20,6 +19,33 @@ function main(){
             exit
         ;;
     esac
+}
+
+function main_help(){
+    
+    echo
+    echo "        :::::::::: ::::::::::: :::        ::::::::::          ::::::::  :::   ::: ::::    :::  :::::::: "
+    echo "       :+:            :+:     :+:        :+:                :+:    :+: :+:   :+: :+:+:   :+: :+:    :+: "
+    echo "      +:+            +:+     +:+        +:+                +:+         +:+ +:+  :+:+:+  +:+ +:+         "
+    echo "     :#::+::#       +#+     +#+        +#++:++#           +#++:++#++   +#++:   +#+ +:+ +#+ +#+          "
+    echo "    +#+            +#+     +#+        +#+                       +#+    +#+    +#+  +#+#+# +#+           "
+    echo "   #+#            #+#     #+#        #+#                #+#    #+#    #+#    #+#   #+#+# #+#    #+#     "
+    echo "  ###        ########### ########## ##########          ########     ###    ###    ####  ########       "
+    echo 
+    echo " File synchronizer"
+    echo
+    echo " list of commands :"
+    echo " help                         show help menu and commands"
+    echo " init                         initialize the sync and link two directories"
+    echo " push                         sync the content of two directories"
+    echo " save                         create a backup of a current directory"
+    echo " load                         load a backup with a given version"
+    echo
+    echo " To view all available options for each command, use fsync [command] help"
+    echo
+
+    exit 0;
+
 }
 
 main "$@";
