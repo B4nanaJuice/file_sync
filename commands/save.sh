@@ -4,6 +4,11 @@ function save(){
         save_help;
     fi
 
+    if [ ! -f $SYNCHRO_FILE ]; then 
+        echo "Error: synchro file can't be found. Please initialize your directories before pushing."
+        exit 1;
+    fi
+
     local error_message='';
 
     while [ $# -gt 0 ]; do
