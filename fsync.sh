@@ -1,7 +1,7 @@
 #! /bin/bash
 
-source utils/data.sh
-source utils/functions.sh
+source $HOME/file_sync/utils/data.sh
+source $HOME/file_sync/utils/functions.sh
 
 function main(){
     if [ $# -eq 0 ] || [ $1 = "help" ]; then
@@ -16,7 +16,7 @@ function main(){
 
         *)
             echo "Error: Invalid subcommand (expected init, push, save or load but got $1)"
-            exit
+            exit 0;
         ;;
     esac
 }
