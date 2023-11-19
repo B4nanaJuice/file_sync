@@ -6,7 +6,7 @@ function save(){
 
     if [ ! -f $SYNCHRO_FILE ]; then 
         echo "Error: synchro file can't be found. Please initialize your directories before pushing."
-        exit 1;
+        exit 0;
     fi
 
     local error_message='';
@@ -26,7 +26,7 @@ function save(){
 
             *)
                 echo "Error: Unknown option $1"
-                exit 1;
+                exit 0;
             ;;
         esac
     done
@@ -34,13 +34,13 @@ function save(){
     # Test if origin directory is set
     if [ -z $__origin ]; then 
         echo "Error: must specify an origin directory"
-        exit 1;
+        exit 0;
     fi
 
     # Test if origin is in the synchro file
     if [[ $(echo $__origin | sed 's/^\.\///; s/\/$//') != $(awk '{print $1}' $SYNCHRO_FILE) ]] && [[ $(echo $__origin | sed 's/^\.\///; s/\/$//') != $(awk '{print $2}' $SYNCHRO_FILE) ]]; then
         echo "Error: $__origin is not in the synchro file"
-        exit 1;
+        exit 0;
     fi
 
     # Test if backup directory exists
@@ -70,7 +70,7 @@ function save(){
     else
         if [ -d $BACKUP_DIRECTORY/$__version ]; then
             echo "Error: the version $__version already exists"
-            exit 1;
+            exit 0;
         fi
     fi
 

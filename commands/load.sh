@@ -8,14 +8,14 @@ function load(){
     # If not, ask for the user to init two directories, only way to create a synchro file
     if [ ! -f $SYNCHRO_FILE ]; then 
         echo "Error: synchro file can't be found. Please initialize your directories before pushing."
-        exit 1;
+        exit 0;
     fi
 
     # Test if the backup directory exists
     # If not, ask for the user to make a first backup so that the directory can be crated
     if [ ! -d $BACKUP_DIRECTORY ]; then 
         echo "Error: backup directory can't be found. Please save a backup before loading one."
-        exit 1;
+        exit 0;
     fi
 
     local error_message='';
@@ -35,7 +35,7 @@ function load(){
 
             *)
                 echo "Error: Unknown option $1"
-                exit 1;
+                exit 0;
             ;;
         esac
     done
@@ -43,19 +43,19 @@ function load(){
     # Test if the user used -v option
     if [ -z $__version ]; then
         echo "Error: must secify a version"
-        exit 1;
+        exit 0;
     fi
 
     # Test if the user used -d option
     if [ -z $__destination ]; then
         echo "Error: must specify a destination directory"
-        exit 1;
+        exit 0;
     fi
 
     # Test if destination is in the synchro file
     if [[ $(echo $__destination | sed 's/^\.\///; s/\/$//') != $(awk '{print $1}' $SYNCHRO_FILE) ]] && [[ $(echo $__destination | sed 's/^\.\///; s/\/$//') != $(awk '{print $2}' $SYNCHRO_FILE) ]]; then
         echo "Error: $__destination is not in the synchro file"
-        exit 1;
+        exit 0;
     fi
 
     # Test if the version is an existing version
@@ -68,7 +68,7 @@ function load(){
             ;;
         esac
 
-        exit 1;
+        exit 0;
     fi
 
     # Test if the user has recent modifications

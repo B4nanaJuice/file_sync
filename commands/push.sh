@@ -8,7 +8,7 @@ function push(){
     # Test if the synchro file is created, if not, ask the user to init the two directories
     if [ ! -f $SYNCHRO_FILE ]; then 
         echo "Error: synchro file can't be found. Please initialize your directories before pushing."
-        exit 1;
+        exit 0;
     fi
 
     local error_message='';
@@ -25,7 +25,7 @@ function push(){
 
             *)
                 echo "Error: Unknown option $1"
-                exit 1;
+                exit 0;
             ;;
         esac
     done
@@ -75,7 +75,7 @@ function push(){
     else
         if [ ! -d $__origin ]; then 
             echo "Error: $__origin is not a directory"
-            exit 1;
+            exit 0;
         fi
 
         # Test if the argument is one of the two directories
@@ -86,7 +86,7 @@ function push(){
             __destination=$__temp_a
         else
             echo "Error: $__origin is not in the synchro configuration"
-            exit 1;
+            exit 0;
         fi
 
     fi
