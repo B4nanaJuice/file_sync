@@ -30,7 +30,7 @@ function init(){
     # Test if both values are set
     if [ -z $__destination ]; then
         # Make the output readable by python programm
-        echo '{"type": "error", "message": "Must specify a destination directory"}'
+        echo "Error: must specify a destination directory"
         exit 0;
     fi
 
