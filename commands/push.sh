@@ -40,6 +40,8 @@ function push(){
     local __temp_a=$(awk '{print $1}' $SYNCHRO_FILE);
     local __temp_b=$(awk '{print $2}' $SYNCHRO_FILE);
     local __reference_date="";
+    local __time_a=$(date -d "$(find $__temp_a -type f -exec stat \{} --printf="%y\n" \; | sort -n -r | head -n 1)");
+    local __time_b=$(date -d "$(find $__temp_b -type f -exec stat \{} --printf="%y\n" \; | sort -n -r | head -n 1)");
 
     # If the origin dir has not been specified
     if [ -z $__origin ]; then 
@@ -48,10 +50,10 @@ function push(){
 
         # Test which one has recent modifications
         # If the first dir has recent modifications
-        if [[ "$(date -r $__temp_a)" > "$__reference_date" ]]; then 
+        if [[ "$__time_a" > "$__reference_date" ]]; then 
 
             # If the second dir has also recent modifications -> conflict
-            if [[ "$(date -r $__temp_b)" > "$__reference_date" ]]; then 
+            if [[ "$__time_b" > "$__reference_date" ]]; then 
                 echo "Error: there is a conflict"
                 conflict $__temp_a $__temp_b
                 exit 0;
@@ -61,7 +63,7 @@ function push(){
             fi
 
         # If there is the second dir with recent modifications
-        elif [[ "$(date -r $__temp_b)" > "$__reference_date" ]]; then 
+        elif [[ "$__time_b" > "$__reference_date" ]]; then 
 
             __origin=$__temp_b;
             __destination=$__temp_a;
