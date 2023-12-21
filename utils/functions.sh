@@ -15,7 +15,8 @@ function conflict(){
     for line in $(diff -rq $1 $2 | sed -e '/^Only/d' -e 's/Files .*\/\(.*\) and .* differ$/\1/g'); do
         # Ask the choice of the user
         read -p "Files $line differ, which one you want to keep ? [1 to keep from $1 and 2 to keep from $2]: " $__choice
-        
+        __choice=$(echo $__choice | sed 's/ //g')
+
         # Make sure the user inputs a correct value
         # If the value isn't valid, ask again to the user until he gives a valid input 
         while [ -z $__choice ] || ([ "$__choice" != "1" ] && [ "$__choice" != "2" ]); do
@@ -36,6 +37,7 @@ function conflict(){
     for line in $(diff -rq $1 $2 | sed -e '/^Files/d' -e "/^Only in $2/d" -e "s/^Only in .*: \(.*\)/\1/"); do
         # Ask for the choice of the user
         read -p "File $line is only present in $1 ? [1 to copy from $1 and 2 to remove $1]: " __choice
+        __choice=$(echo $__choice | sed 's/ //g')
         
         # Make sur the user inputs a valid choice (1 or 2)
         # If the value isn't valid, ask again until the user gives a valid input
@@ -56,6 +58,7 @@ function conflict(){
     for line in $(diff -rq $1 $2 | sed -e '/^Files/d' -e "/^Only in $1/d" -e "s/^Only in .*: \(.*\)/\1/"); do
         # Ask the user their choice (1 or 2)
         read -p "File $line is only present in $2 ? [1 to copy from $2 and 2 to remove $2]: " __choice
+        __choice=$(echo $__choice | sed 's/ //g')
         
         # Sanitize the input
         while [ -z $__choice ] || ([ "$__choice" != "1" ] && [ "$__choice" != "2" ]); do
@@ -69,4 +72,6 @@ function conflict(){
             rm $2/$line
         fi
     done
+
+    echo "$1 $2 $(date | sed 's/ /-/g')" > $SYNCHRO_FILE
 }
