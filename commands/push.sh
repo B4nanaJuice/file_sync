@@ -50,12 +50,12 @@ function push(){
 
         # Test which one has recent modifications
         # If the first dir has recent modifications
-        if [[ "$__time_a" > "$__reference_date" ]]; then 
+        # if [[ "$__time_a" > "$__reference_date" ]]; then 
 
             # If the second dir has also recent modifications -> conflict
             if [[ "$__time_b" > "$__reference_date" ]]; then 
                 echo "Error: there is a conflict"
-                conflict $__temp_a $__temp_b
+                conflict "$__temp_a" "$__temp_b"
                 exit 0;
             else
                 __origin=$__temp_a;
@@ -70,9 +70,31 @@ function push(){
 
         # If there is no recent modification in both of the directories
         else
-            echo "The two directories are up to date. Nothing to change."
-            exit 0;
-        fi
+            # Test if there are diff in the two directories (deleted files that are not seen by the find)
+            if [ $(diff -rq "$__temp_a" "$__temp_b" | wc -l) -ne 0 ]; then 
+                # Test if there are only files in one dir -> files only in the other dir are deleted
+                if [ $(diff -rq "$__temp_a" "$__temp_b" | grep "$__temp_b" | wc -l) -ne 0 ]; then
+                    # If there are dleted files in both of the directories
+                    if [ $(diff -rq "$__temp_a" "$__temp_b" | grep "$__temp_a" | wc -l) -ne 0 ]; then
+                        # conflict
+                        echo "Error: there is a conflict"
+                        conflict "$__temp_a" "$__temp_b"
+                        exit 0;
+                    else
+                        __origin=$__temp_a;
+                        __destination=$__temp_b;
+                    fi
+
+                elif [ $(diff -rq $__temp_a $__temp_b | grep "$__temp_a" | wc -l) -ne 0 ]; then
+                    __origin=$__temp_b;
+                    __destination=$__temp_a;
+                fi
+                
+            else
+                echo "The two directories are up to date. Nothing to change."
+                exit 0;
+            fi
+        # fi
 
     else
         if [ ! -d $__origin ]; then 
